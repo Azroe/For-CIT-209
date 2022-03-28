@@ -39,8 +39,10 @@ void loop() {
   	digitalWrite(red,HIGH);
     digitalWrite(blue,LOW);
     digitalWrite(green,LOW);
-    tone(buzzer, 1000, 1000);
-    
+    tone(buzzer, 500, 1000);
+    delay(400);
+    tone(buzzer, 400, 1000);
+    delay(400);
   }  
   
   //RED + GREEN = YELLOW LIGHT
@@ -63,7 +65,7 @@ void loop() {
   lcd.setCursor(0, 0); // Sets the location at which subsequent text written to the LCD will be displayed
   lcd.print("Distance: "); // Prints string "Distance" on the LCD
   lcd.print(cm); // Prints the distance value from the sensor
-  lcd.print("cm");
+  lcd.print("cm  ");
   delay(100);
 }
 
