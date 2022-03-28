@@ -1,0 +1,72 @@
+// C++ code
+//
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(1, 2, 4, 5, 6, 7);
+const int pingPin = 8;
+int buzzer=12;
+int red=11;
+int blue=10;
+int green=9;
+
+void setup() {
+  lcd.begin(16, 2);
+  pinMode(red,OUTPUT);
+  pinMode(blue,OUTPUT);
+  pinMode(green,OUTPUT);
+  pinMode(buzzer,OUTPUT);
+}
+
+void loop() {
+  
+  long duration, cm;
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH);
+
+  //convert time into distance
+  cm = microsecondsToCentimeters(duration);
+  
+  //CONDITIONALS
+  
+  //RED LIGHT
+  if(cm<10){
+  	digitalWrite(red,HIGH);
+    digitalWrite(blue,LOW);
+    digitalWrite(green,LOW);
+    tone(buzzer, 1000, 1000);
+    
+  }  
+  
+  //RED + GREEN = YELLOW LIGHT
+   if(cm>11 && cm<20){
+  	digitalWrite(red,HIGH);
+    digitalWrite(blue,LOW);
+    digitalWrite(green,HIGH);
+    noTone(buzzer);
+    
+  }  
+  //GREEN LIGHT
+   if(cm>20){
+  	digitalWrite(red,LOW);
+    digitalWrite(blue,LOW);
+    digitalWrite(green,HIGH);
+    noTone(buzzer);
+     
+  }  
+  
+  lcd.setCursor(0, 0); // Sets the location at which subsequent text written to the LCD will be displayed
+  lcd.print("Distance: "); // Prints string "Distance" on the LCD
+  lcd.print(cm); // Prints the distance value from the sensor
+  lcd.print("cm");
+  delay(100);
+}
+
+  long microsecondsToCentimeters(long microseconds) {
+  return microseconds / 29 / 2;
+}
